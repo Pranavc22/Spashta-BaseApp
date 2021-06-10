@@ -1,4 +1,4 @@
-# ![Spashta Logo](https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/assets/images/logo.png)Spashta Technologies 
+# <img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/assets/images/logo.png" alt="Spashta Logo" width="20" height="20"/>Spashta Technologies 
 
 ## Introduction
 Spashta Technologies was established with the aim of improving the quality of supply chain decisions. In an industry where information technology is critical to aid business decisions, Spashta delivers solutions that are driven by business needs. We believe in empowering the business user with customized solutions, that are not only rich in functionalities, but also easy to implement. These aspects help stakeholders to overcome the inadequacies of legacy systems. 
