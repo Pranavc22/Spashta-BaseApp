@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/assets/images/logo.png" alt="Spashta Logo" width="60"/> Spashta Technologies
+# <img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/assets/images/logo.png" alt="Spashta Logo" width="80"/> Spashta Technologies
 
 ## Introduction
 Spashta Technologies was established with the aim of improving the quality of supply chain decisions. In an industry where information technology is critical to aid business decisions, Spashta delivers solutions that are driven by business needs. We believe in empowering the business user with customized solutions, that are not only rich in functionalities, but also easy to implement. These aspects help stakeholders to overcome the inadequacies of legacy systems. 
@@ -6,6 +6,7 @@ Spashta Technologies was established with the aim of improving the quality of su
 The project serves as the prototype mobile application for some of Spashta Tech's numerous offerings. 
 
 ## Screenshots
+<p><img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Screenshot_20210610-115308.jpg" alt="Splash Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Screenshot_20210610-134014.jpg" alt="Login Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Screenshot_20210610-134034.jpg" alt="Dashboard Page" width="173" height="374"/></p>
 
 ## Concepts Learned
 The project has given me the opportunity to learn a lot of new concepts. Here are some of those: 
