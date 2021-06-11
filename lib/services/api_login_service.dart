@@ -12,12 +12,14 @@ class LoginService {
     };
     final response = await http.post(Uri.parse(url),
         body: jsonEncode(requestModel.toJson()), headers: postHeaders);
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200 ||
+        response.statusCode == 400 ||
+        response.statusCode == 401) {
       print('Status code is: ${response.statusCode}.');
-      print(jsonDecode(response.body));
-      return LoginResponseModel.fromJson(jsonDecode(response.body));
+      return LoginResponseModel.fromJson(response);
     } else {
-      throw Exception('Failed to load data');
+      print(response.statusCode);
+      throw Exception('Failed to load data.');
     }
   }
 }

@@ -17,6 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool hidePassword = true;
   LoginRequestModel? requestModel;
   bool isAPICall = false;
@@ -254,16 +255,67 @@ class _LoginFormState extends State<LoginForm> {
                                   passwordController.text +
                                   "\",\"module\":\"idm\"}";
                               LoginService loginService = LoginService();
-                              loginService.login(requestModel!).then((value) {
+                              loginService
+                                  .login(requestModel!)
+                                  .then((response) {
                                 setState(() {
                                   isAPICall = false;
+                                });
+                                if (response.statusCode == 200) {
+                                  final snackBar = SnackBar(
+                                      backgroundColor: dark,
+                                      elevation: 10.0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20.0),
+                                              topLeft: Radius.circular(20.0))),
+                                      content: Row(
+                                        children: [
+                                          Text(
+                                            'Login Successful.',
+                                            style: TextStyle(
+                                                color: light,
+                                                fontSize: 16.0,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                          SizedBox(width: 20.0),
+                                          Icon(
+                                            Icons.check_circle,
+                                            size: 18.0,
+                                            color: light,
+                                          )
+                                        ],
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
                                   login();
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
                                           builder: (context) =>
                                               DashboardPage()));
-                                });
+                                } else if (response.statusCode == 401) {
+                                  final snackBar = SnackBar(
+                                      backgroundColor: dark,
+                                      elevation: 10.0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20.0),
+                                              topLeft: Radius.circular(20.0))),
+                                      content: Text(
+                                        'Unauthorized. Please check your username and password.',
+                                        style: TextStyle(
+                                            color: light,
+                                            fontSize: 16.0,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
+                                }
                               });
                               print(requestModel!.toJson());
                             }

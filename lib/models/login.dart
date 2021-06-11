@@ -1,3 +1,6 @@
+import 'package:http/http.dart';
+import 'dart:convert';
+
 class LoginRequestModel {
   String? instruction;
   int? sessionId;
@@ -19,9 +22,16 @@ class LoginRequestModel {
 
 class LoginResponseModel {
   final int? sessionId;
+  final int? statusCode;
 
-  LoginResponseModel({this.sessionId});
+  LoginResponseModel({this.sessionId, this.statusCode});
 
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
-      LoginResponseModel(sessionId: json["sessionId"]);
+  factory LoginResponseModel.fromJson(Response response) {
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return LoginResponseModel(
+          sessionId: json["sessionId"], statusCode: response.statusCode);
+    } else
+      return LoginResponseModel(statusCode: response.statusCode);
+  }
 }
