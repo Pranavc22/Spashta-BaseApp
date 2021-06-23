@@ -1,4 +1,4 @@
-package com.example.spashta_base_app
+package com.spashtasolutions.spashta_base_app
 
 import io.flutter.embedding.android.FlutterActivity
 

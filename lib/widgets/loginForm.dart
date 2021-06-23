@@ -5,6 +5,7 @@ import 'package:spashta_base_app/pages/dashboardPage.dart';
 import 'package:spashta_base_app/widgets/progressHUD.dart';
 import 'package:spashta_base_app/services/api_login_service.dart';
 import 'package:spashta_base_app/constants.dart';
+import 'snackBars.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -17,12 +18,11 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool hidePassword = true;
   LoginRequestModel? requestModel;
   bool isAPICall = false;
 
-  bool validateAndSave() {
+  bool valid() {
     final form = formKey.currentState;
     if (form!.validate()) {
       form.save();
@@ -31,12 +31,13 @@ class _LoginFormState extends State<LoginForm> {
     return false;
   }
 
-  Future<Null> login() async {
+  Future<Null> saveLogin(int? sessionid) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('Username', userController.text);
-    prefs.setString('Password', passwordController.text);
+    prefs.setInt('SessionID', sessionid!);
+    String? userId = prefs.getString('Username');
     setState(() {
-      name = userController.text;
+      user = userId!;
       isLoggedIn = true;
     });
     userController.clear();
@@ -71,46 +72,22 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20.0),
-                child: Text(
-                  'Welcome to \nSpashta!',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    shadows: [
-                      Shadow(
-                          color: Colors.white,
-                          offset: Offset.zero,
-                          blurRadius: 10.0)
-                    ],
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.0,
-                    height: 1.0,
-                    fontFamily: 'Poppins',
-                    color: dark,
-                  ),
-                ),
-              ),
-            ),
+            child: Container(),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 35.0, right: 35.0, bottom: 30.0, top: 30.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: light,
-                    border: Border.all(color: Colors.blue.shade100, width: 1),
                     borderRadius: BorderRadius.circular(20.0),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black,
                           offset: Offset.zero,
-                          blurRadius: 10.0)
+                          blurRadius: 5.0)
                     ]),
                 child: Form(
                   key: formKey,
@@ -130,9 +107,9 @@ class _LoginFormState extends State<LoginForm> {
                               height: 1.0,
                               shadows: [
                                 Shadow(
-                                    color: Colors.white,
+                                    color: dark,
                                     offset: Offset.zero,
-                                    blurRadius: 2.0)
+                                    blurRadius: 1.0)
                               ],
                             ),
                           ),
@@ -182,7 +159,7 @@ class _LoginFormState extends State<LoginForm> {
                             Padding(
                               padding: const EdgeInsets.only(
                                 top: 5.0,
-                                bottom: 125.0,
+                                // bottom: 125.0,
                                 left: 20.0,
                                 right: 20.0,
                               ),
@@ -236,93 +213,61 @@ class _LoginFormState extends State<LoginForm> {
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            primary: dark,
-                            minimumSize: Size(70.0, 70.0),
-                            shadowColor: dark,
-                            elevation: 10.0,
-                          ),
-                          onPressed: () {
-                            if (validateAndSave()) {
-                              setState(() {
-                                isAPICall = true;
-                              });
-                              requestModel!.json = "{\"user\":\"" +
-                                  userController.text +
-                                  "\",\"password\":\"" +
-                                  passwordController.text +
-                                  "\",\"module\":\"idm\"}";
-                              LoginService loginService = LoginService();
-                              loginService
-                                  .login(requestModel!)
-                                  .then((response) {
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 40.0, bottom: 20.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              primary: dark,
+                              minimumSize: Size(70.0, 70.0),
+                              shadowColor: dark,
+                              elevation: 5.0,
+                            ),
+                            onPressed: () {
+                              if (valid()) {
                                 setState(() {
-                                  isAPICall = false;
+                                  isAPICall = true;
                                 });
-                                if (response.statusCode == 200) {
-                                  final snackBar = SnackBar(
-                                      backgroundColor: dark,
-                                      elevation: 10.0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20.0),
-                                              topLeft: Radius.circular(20.0))),
-                                      content: Row(
-                                        children: [
-                                          Text(
-                                            'Login Successful.',
-                                            style: TextStyle(
-                                                color: light,
-                                                fontSize: 16.0,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w300),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Icon(
-                                            Icons.check_circle,
-                                            size: 18.0,
-                                            color: light,
-                                          )
-                                        ],
-                                      ));
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(snackBar);
-                                  login();
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) =>
-                                              DashboardPage()));
-                                } else if (response.statusCode == 401) {
-                                  final snackBar = SnackBar(
-                                      backgroundColor: dark,
-                                      elevation: 10.0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20.0),
-                                              topLeft: Radius.circular(20.0))),
-                                      content: Text(
-                                        'Unauthorized. Please check your username and password.',
-                                        style: TextStyle(
-                                            color: light,
-                                            fontSize: 16.0,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w300),
-                                      ));
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(snackBar);
-                                }
-                              });
-                              print(requestModel!.toJson());
-                            }
-                          },
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 35.0,
+                                requestModel!.json = "{\"user\":\"" +
+                                    userController.text +
+                                    "\",\"password\":\"" +
+                                    passwordController.text +
+                                    "\",\"module\":\"idm\"}";
+                                LoginService loginService = LoginService();
+                                loginService
+                                    .login(requestModel!)
+                                    .then((response) {
+                                  setState(() {
+                                    isAPICall = false;
+                                  });
+                                  if (response.statusCode == 200) {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(loginSuccessSnackBar);
+                                    saveLogin(response.sessionId);
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                DashboardPage()));
+                                  } else if (response.statusCode == 401) {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(unauthorizedSnackBar);
+                                  } else if (response.statusCode == 404) {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(urlNotFoundSnackBar);
+                                  }
+                                });
+                                print(requestModel!.toJson());
+                              }
+                            },
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 35.0,
+                            ),
                           ),
                         ),
                       ],

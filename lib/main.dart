@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spashta_base_app/pages/logInPage.dart';
+import 'package:spashta_base_app/pages/connectionPage.dart';
 import 'package:spashta_base_app/pages/dashboardPage.dart';
 import 'constants.dart';
 
@@ -21,13 +21,13 @@ class _BaseAppState extends State<BaseApp> {
     autoLogin();
   }
 
-  void autoLogin() async {
+  Future<void> autoLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userId = prefs.getString('Username');
     if (userId != null) {
       setState(() {
         isLoggedIn = true;
-        name = userId;
+        user = userId;
       });
     }
   }
@@ -42,12 +42,12 @@ class _BaseAppState extends State<BaseApp> {
         scaffoldBackgroundColor: light,
         accentColor: dark,
         appBarTheme: AppBarTheme(
-            color: dark, shadowColor: Colors.black, elevation: 10.0),
+            color: Color.fromRGBO(35, 31, 32, 0.75),
+            shadowColor: Colors.black,
+            elevation: 10.0),
       ),
-      home: isLoggedIn ? DashboardPage() : LogInPage(),
+      home: isLoggedIn ? DashboardPage() : ConnectionPage(),
+      // home: LogInPage(),
     );
   }
 }
-
-//TODO: Get high res pictures, if possible.
-//TODO: Add validation for username, in case there is a specific format.

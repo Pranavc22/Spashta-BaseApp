@@ -29,8 +29,7 @@ class LoginResponseModel {
   factory LoginResponseModel.fromJson(Response response) {
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
-      return LoginResponseModel(
-          sessionId: json["sessionId"], statusCode: response.statusCode);
+      return LoginResponseModel(sessionId: json["sessionId"], statusCode: 200);
     } else
       return LoginResponseModel(statusCode: response.statusCode);
   }

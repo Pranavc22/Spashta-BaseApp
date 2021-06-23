@@ -2,5 +2,9 @@ import 'package:flutter/material.dart';
 
 final Color dark = Color(0xFF231F20);
 final Color light = Colors.blue.shade200;
-String name = '';
+String baseURL = '';
+String? module;
+String division = '';
+String user = '';
+int? sessionID;
 bool isLoggedIn = false;

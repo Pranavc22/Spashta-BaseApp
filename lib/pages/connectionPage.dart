@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spashta_base_app/constants.dart';
-import 'package:spashta_base_app/widgets/loginForm.dart';
+import 'package:spashta_base_app/widgets/connectionForm.dart';
 
-class LogInPage extends StatelessWidget {
-  const LogInPage({Key? key}) : super(key: key);
+class ConnectionPage extends StatelessWidget {
+  const ConnectionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class LogInPage extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: LoginForm(),
+        body: ConnectionForm(),
       ),
     );
   }
