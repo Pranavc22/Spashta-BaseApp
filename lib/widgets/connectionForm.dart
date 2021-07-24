@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spashta_base_app/constants.dart';
 import 'package:spashta_base_app/pages/logInPage.dart';
+import 'package:spashta_base_app/pages/switchConnections.dart';
 
 class ConnectionForm extends StatefulWidget {
   const ConnectionForm({Key? key}) : super(key: key);
@@ -13,14 +16,25 @@ class ConnectionForm extends StatefulWidget {
 class _ConnectionFormState extends State<ConnectionForm> {
   GlobalKey<FormState> connectionFormKey = GlobalKey<FormState>();
   TextEditingController urlController = TextEditingController();
+  TextEditingController aliasController = TextEditingController();
   TextEditingController divisionController = TextEditingController();
   List<String> moduleList = ["idm"];
 
   Future<Null> save() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('URL', baseURL);
-    prefs.setString('Division', division);
-    prefs.setString('Module', module!);
+    config = {"URL": baseURL, "Division": division, "Module": module};
+    String encodedConfig = json.encode(config);
+    // aliasNames.add(alias!);
+    prefs.setString("Alias", alias!);
+    aliasNames.contains(alias)
+        ? aliasNames = aliasNames
+        : aliasNames.add(alias!);
+    prefs.setStringList("AliasNames", aliasNames);
+    prefs.setString(genKey(alias!), encodedConfig);
+  }
+
+  String genKey(String input) {
+    return input + 'config';
   }
 
   bool valid() {
@@ -42,16 +56,16 @@ class _ConnectionFormState extends State<ConnectionForm> {
       ),
       child: Column(
         children: [
-          Expanded(child: Container()),
           Expanded(
-            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 35.0, right: 35.0, bottom: 30.0, top: 30.0),
+              padding:
+                  const EdgeInsets.only(left: 35.0, right: 35.0, top: 30.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: light,
-                    borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0)),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black,
@@ -63,15 +77,14 @@ class _ConnectionFormState extends State<ConnectionForm> {
                   child: SingleChildScrollView(
                     child: Column(children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
+                        padding: EdgeInsets.symmetric(vertical: 25.0),
                         child: Text(
-                          'Create a Connection',
+                          'Create Workspace',
                           style: TextStyle(
                             color: dark,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 20.0,
-                            letterSpacing: 0.0,
                             height: 1.0,
                             shadows: [
                               Shadow(
@@ -82,15 +95,73 @@ class _ConnectionFormState extends State<ConnectionForm> {
                           ),
                         ),
                       ),
+                      TextButton(
+                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                          onPressed: () {
+                            Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (context) => SwitchConnections()));
+                          },
+                          child: Text(
+                            'Already have a workspace? Click here.',
+                            style: TextStyle(
+                              color: dark,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.0,
+                              height: 1.0,
+                              shadows: [
+                                Shadow(
+                                    color: dark,
+                                    offset: Offset.zero,
+                                    blurRadius: 1.0)
+                              ],
+                            ),
+                          )),
                       Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                              top: 25.0,
-                              bottom: 12.5,
+                              top: 0.0,
+                              bottom: 10.0,
                               left: 20.0,
                               right: 20.0,
                             ),
+                            child: TextFormField(
+                              controller: aliasController,
+                              validator: (val) => val!.isEmpty
+                                  ? 'Please enter an alias.'
+                                  : null,
+                              decoration: InputDecoration(
+                                hintText: 'Alias name',
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(35, 31, 32, 0.5),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16.0,
+                                  height: 1.0,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  borderSide:
+                                      BorderSide(color: dark, width: 2.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  borderSide:
+                                      BorderSide(color: dark, width: 2.0),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.edit,
+                                  size: 20.0,
+                                  color: dark,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 20.0),
                             child: TextFormField(
                               controller: urlController,
                               validator: (url) => url!.isEmpty
@@ -126,7 +197,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                              vertical: 12.5,
+                              vertical: 10.0,
                               horizontal: 20.0,
                             ),
                             child: DropdownButtonFormField(
@@ -228,12 +299,12 @@ class _ConnectionFormState extends State<ConnectionForm> {
                               onPressed: () {
                                 if (valid()) {
                                   setState(() {
+                                    alias = aliasController.text;
                                     baseURL = urlController.text;
                                     division = divisionController.text;
                                   });
                                   save();
-                                  Navigator.push(
-                                      context,
+                                  Navigator.of(context).push(
                                       new MaterialPageRoute(
                                           builder: (context) => LogInPage()));
                                 }

@@ -246,11 +246,11 @@ class _LoginFormState extends State<LoginForm> {
                                       ..hideCurrentSnackBar()
                                       ..showSnackBar(loginSuccessSnackBar);
                                     saveLogin(response.sessionId);
-                                    Navigator.push(
-                                        context,
+                                    Navigator.of(context).pushAndRemoveUntil(
                                         new MaterialPageRoute(
                                             builder: (context) =>
-                                                DashboardPage()));
+                                                DashboardPage()),
+                                        (route) => false);
                                   } else if (response.statusCode == 401) {
                                     ScaffoldMessenger.of(context)
                                       ..hideCurrentSnackBar()
