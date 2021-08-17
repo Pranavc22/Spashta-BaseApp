@@ -6,7 +6,7 @@ Spashta Technologies was established with the aim of improving the quality of su
 The project serves as the prototype mobile application for some of Spashta Tech's numerous offerings. 
 
 ## Screenshots
-<p><img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Splash%20Screen.jpg" alt="Splash Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/ConnectionPage.jpg" alt="Connection Page" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/LoginPage.jpg" alt="Login Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Dashboard.jpg" alt="Dashboard" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/MenuDrawer.jpg" alt="Menu Drawer" width="173" height="374"/></p>
+<p><img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/Splash%20Screen.jpg" alt="Splash Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/ConnectionsPage.jpg" alt="Connections Page" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/LoginPage.jpg" alt="Login Screen" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/MenuDrawer.jpg" alt="Menu Drawer" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/TableDashboard.jpg" alt="Table Dashboard" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/MultiDashboard.jpg" alt="Multi Dashboard" width="374" height="173"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/UserSettings.jpg" alt="User Settings" width="173" height="374"/>&emsp;<img src="https://raw.githubusercontent.com/Pranavc22/Spashta-BaseApp/main/screenshots/WorkspacePanel.jpg" alt="Workspace Panel" width="173" height="374"/></p>
 
 ## Concepts Learned
 The project has given me the opportunity to learn a lot of new concepts. Here are some of those: 
@@ -28,4 +28,3 @@ Some of the resources that helped me during the project are:
 
 Dart packages for the project: 
 - [shared_preferences package](https://pub.dev/packages/shared_preferences)
- 
