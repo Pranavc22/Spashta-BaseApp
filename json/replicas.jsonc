@@ -1,0 +1,15 @@
+//Request URL: http://baseURL/spashta/api/instance/replicas
+
+//Request Payload:
+{
+    "instruction":"PERFORM_QUERY",
+    "sessionId":"sessionID",
+    "json":"{\"query\":\"List Replica\",\"actionId\":\"replica\",\"instance\":\"instance\",\"replica\":\"\",\"user\":\"username\"}"
+}
+
+//Response Body: Important - values.
+{
+    "values":["BASE"],
+    "type":"SET",
+    "queryTime":0.0
+}

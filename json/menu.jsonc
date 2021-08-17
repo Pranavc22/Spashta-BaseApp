@@ -1,0 +1,33 @@
+//Request URL: http://baseURL/spashta/api/menu
+
+//Request Payload:
+{
+    "instruction" : "PERFORM_QUERY",
+    "sessionid" : "sessionID",
+    "json" : "{\"query\":\"MAINMENU\", \"actionId\":\"mainmenu\", \"user\":\"username\", \"instance\":\"\", \"module\":\"module\", \"division\":\"division\"}"
+}
+
+//Response Body: Important - children[name, children[name, actionId, children]]
+{
+	"children" : [
+		{
+			"name" : "KPI",
+			"children" : [
+			 	//non-null => group header which expands on selection.
+			 	//Expanded list displays below elements - 
+				{
+					"menuType" : "QUERY",
+					"name" : "KPI Summary",
+					"actionId" : "kpisummary",
+					"children" : null	//null => clickable
+				},
+				{
+					"menuType" : "QUERY",
+					"name" : "Exceptions",
+					"actionId" : "kpiexception",
+					"children" : null
+				}
+			]
+		}
+	]
+}

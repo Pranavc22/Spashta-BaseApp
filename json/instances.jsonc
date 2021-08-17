@@ -1,0 +1,16 @@
+//Request URL: http://baseURL/spashta/api/instance/list
+
+//Request Payload: 
+{
+    "instruction":"PERFORM_QUERY",
+    "sessionId":"sessionID",
+    "json":"{\"query\":\"List Instance\",\"user\":\"username\",\"actionId\":\"instances\",\"module\":\"module\",\"division\":\"division\",\"instance\":\"\",\"replica\":\"\"}"
+}
+
+//Response Body:
+//Important - values.
+{
+    "values":["DEMO:2021-Jul-31 09:47"],
+    "type":"SET",
+    "queryTime":0.0
+}

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spashta_base_app/constants.dart';
 import 'package:spashta_base_app/pages/logInPage.dart';
 import 'package:spashta_base_app/pages/switchConnections.dart';
+import 'package:spashta_base_app/styling/textStyles.dart';
 
 class ConnectionForm extends StatefulWidget {
   const ConnectionForm({Key? key}) : super(key: key);
@@ -24,7 +25,6 @@ class _ConnectionFormState extends State<ConnectionForm> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     config = {"URL": baseURL, "Division": division, "Module": module};
     String encodedConfig = json.encode(config);
-    // aliasNames.add(alias!);
     prefs.setString("Alias", alias!);
     aliasNames.contains(alias)
         ? aliasNames = aliasNames
@@ -78,22 +78,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                     child: Column(children: [
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 25.0),
-                        child: Text(
-                          'Create Workspace',
-                          style: TextStyle(
-                            color: dark,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20.0,
-                            height: 1.0,
-                            shadows: [
-                              Shadow(
-                                  color: dark,
-                                  offset: Offset.zero,
-                                  blurRadius: 1.0)
-                            ],
-                          ),
-                        ),
+                        child: Text('Create Workspace', style: titleTextStyle),
                       ),
                       TextButton(
                           style: TextButton.styleFrom(padding: EdgeInsets.zero),
@@ -101,22 +86,8 @@ class _ConnectionFormState extends State<ConnectionForm> {
                             Navigator.of(context).push(new MaterialPageRoute(
                                 builder: (context) => SwitchConnections()));
                           },
-                          child: Text(
-                            'Already have a workspace? Click here.',
-                            style: TextStyle(
-                              color: dark,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12.0,
-                              height: 1.0,
-                              shadows: [
-                                Shadow(
-                                    color: dark,
-                                    offset: Offset.zero,
-                                    blurRadius: 1.0)
-                              ],
-                            ),
-                          )),
+                          child: Text('Already have a workspace? Click here.',
+                              style: optionsTextStyle)),
                       Column(
                         children: [
                           Padding(
@@ -133,12 +104,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                                   : null,
                               decoration: InputDecoration(
                                 hintText: 'Alias name',
-                                hintStyle: TextStyle(
-                                  color: Color.fromRGBO(35, 31, 32, 0.5),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16.0,
-                                  height: 1.0,
-                                ),
+                                hintStyle: hintTextStyle,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0)),
@@ -169,12 +135,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                                   : null,
                               decoration: InputDecoration(
                                 hintText: 'URL',
-                                hintStyle: TextStyle(
-                                  color: Color.fromRGBO(35, 31, 32, 0.5),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16.0,
-                                  height: 1.0,
-                                ),
+                                hintStyle: hintTextStyle,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0)),
@@ -219,12 +180,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                               dropdownColor: light,
                               decoration: InputDecoration(
                                 hintText: 'Select a module',
-                                hintStyle: TextStyle(
-                                  color: Color.fromRGBO(35, 31, 32, 0.5),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16.0,
-                                  height: 1.0,
-                                ),
+                                hintStyle: hintTextStyle,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0)),
@@ -259,12 +215,7 @@ class _ConnectionFormState extends State<ConnectionForm> {
                                   : null,
                               decoration: InputDecoration(
                                 hintText: 'Division',
-                                hintStyle: TextStyle(
-                                  color: Color.fromRGBO(35, 31, 32, 0.5),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16.0,
-                                  height: 1.0,
-                                ),
+                                hintStyle: hintTextStyle,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0)),

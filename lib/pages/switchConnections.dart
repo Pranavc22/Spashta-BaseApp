@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spashta_base_app/constants.dart';
 import 'package:spashta_base_app/pages/logInPage.dart';
+import 'package:spashta_base_app/styling/textStyles.dart';
 
 class SwitchConnections extends StatefulWidget {
   const SwitchConnections({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _SwitchConnectionsState extends State<SwitchConnections> {
 
   Future<void> setConfig() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("Alias", alias!);
     String? encodedConfig = prefs.getString(genKey(alias!));
     config = json.decode(encodedConfig!);
     setState(() {
@@ -36,8 +38,6 @@ class _SwitchConnectionsState extends State<SwitchConnections> {
     setState(() {
       aliasNames = prefs.getStringList("AliasNames")!;
     });
-    print(aliasNames);
-    print(aliasNames.length);
   }
 
   Future<Null> logout() async {
@@ -60,14 +60,7 @@ class _SwitchConnectionsState extends State<SwitchConnections> {
                   BorderRadius.vertical(bottom: Radius.circular(20.0))),
           toolbarHeight: 100.0,
           leading: Image.asset('assets/images/logo.png'),
-          title: Text(
-            'Welcome to Spashta! ',
-            style: TextStyle(
-                color: light,
-                fontSize: 24.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w300),
-          ),
+          title: Text('Welcome to Spashta! ', style: welcomeAppBarTextStyle),
           centerTitle: true,
         ),
         body: Container(
@@ -95,118 +88,95 @@ class _SwitchConnectionsState extends State<SwitchConnections> {
                               offset: Offset.zero,
                               blurRadius: 5.0)
                         ]),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 40.0, bottom: 30.0),
-                          child: Text(
-                            'Select a Workspace',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: dark,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                              letterSpacing: 0.0,
-                              height: 1.0,
-                              shadows: [
-                                Shadow(
-                                    color: dark,
-                                    offset: Offset.zero,
-                                    blurRadius: 1.0)
-                              ],
-                            ),
-                          ),
-                        ),
-                        aliasNames.length == 0
-                            ? Text(
-                                'Sorry! Seems like you do not have any workspaces saved.',
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 40.0, bottom: 30.0),
+                            child: Text('Select a Workspace',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: dark,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16.0,
-                                  letterSpacing: 0.0,
-                                  height: 1.0,
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: aliasNames.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Card(
-                                    margin: EdgeInsets.only(
-                                        left: 0.0,
-                                        top: 7.5,
-                                        bottom: 7.5,
-                                        right: 20.0),
-                                    elevation: 5.0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(15.0),
-                                            bottomRight:
-                                                Radius.circular(15.0))),
-                                    color: dark,
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                          unselectedWidgetColor: light,
-                                          disabledColor: light),
-                                      child: RadioListTile(
-                                        value: index,
-                                        groupValue: selectedTile,
-                                        onChanged: (int? val) {
-                                          setState(() {
-                                            selectedTile = val!;
-                                            alias = aliasNames[val];
-                                          });
-                                        },
-                                        activeColor: light,
-                                        // selected: true,
-                                        title: Text(aliasNames[index],
-                                            style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 16.0,
-                                                color: light,
-                                                fontWeight: FontWeight.normal)),
+                                style: titleTextStyle),
+                          ),
+                          aliasNames.length == 0
+                              ? Text(
+                                  'Sorry! Seems like you do not have any workspaces saved.',
+                                  textAlign: TextAlign.center,
+                                  style: messageTextStyle)
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: aliasNames.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Card(
+                                      margin: EdgeInsets.only(
+                                          left: 0.0,
+                                          top: 7.5,
+                                          bottom: 7.5,
+                                          right: 20.0),
+                                      elevation: 5.0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(15.0),
+                                              bottomRight:
+                                                  Radius.circular(15.0))),
+                                      color: dark,
+                                      child: Theme(
+                                        data: Theme.of(context).copyWith(
+                                            unselectedWidgetColor: light,
+                                            disabledColor: light),
+                                        child: RadioListTile(
+                                          value: index,
+                                          groupValue: selectedTile,
+                                          onChanged: (int? val) {
+                                            setState(() {
+                                              selectedTile = val!;
+                                              alias = aliasNames[val];
+                                            });
+                                          },
+                                          activeColor: light,
+                                          // selected: true,
+                                          title: Text(aliasNames[index],
+                                              style: dataTitleTextStyle),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                        aliasNames.length == 0
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 25.0, bottom: 20.0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    primary: dark,
-                                    minimumSize: Size(70.0, 70.0),
-                                    shadowColor: dark,
-                                    elevation: 5.0,
-                                  ),
-                                  onPressed: () {
-                                    if (selectedTile != null) {
-                                      logout();
-                                      setConfig();
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          new MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LogInPage()),
-                                          (route) => false);
-                                    }
+                                    );
                                   },
-                                  child: Icon(
-                                    Icons.arrow_forward_rounded,
-                                    size: 35.0,
+                                ),
+                          aliasNames.length == 0
+                              ? Container()
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 25.0, bottom: 20.0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: CircleBorder(),
+                                      primary: dark,
+                                      minimumSize: Size(70.0, 70.0),
+                                      shadowColor: dark,
+                                      elevation: 5.0,
+                                    ),
+                                    onPressed: () {
+                                      if (selectedTile != null) {
+                                        logout();
+                                        setConfig();
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LogInPage()),
+                                                (route) => false);
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_forward_rounded,
+                                      size: 35.0,
+                                    ),
                                   ),
                                 ),
-                              ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

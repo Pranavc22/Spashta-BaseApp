@@ -43,8 +43,8 @@ android {
         applicationId "com.spashtasolutions.spashta_base_app"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 4
-        versionName "3.0.0"
+        versionCode 6
+        versionName "3.2.0"
     }
 
     signingConfigs {

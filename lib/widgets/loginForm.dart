@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spashta_base_app/models/login.dart';
 import 'package:spashta_base_app/pages/dashboardPage.dart';
+import 'package:spashta_base_app/styling/textStyles.dart';
 import 'package:spashta_base_app/widgets/progressHUD.dart';
-import 'package:spashta_base_app/services/api_login_service.dart';
+import 'package:spashta_base_app/services/loginService.dart';
 import 'package:spashta_base_app/constants.dart';
 import 'snackBars.dart';
 
@@ -96,23 +97,7 @@ class _LoginFormState extends State<LoginForm> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              color: dark,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 25.0,
-                              letterSpacing: 0.0,
-                              height: 1.0,
-                              shadows: [
-                                Shadow(
-                                    color: dark,
-                                    offset: Offset.zero,
-                                    blurRadius: 1.0)
-                              ],
-                            ),
-                          ),
+                          child: Text('Login', style: titleTextStyle),
                         ),
                         Column(
                           children: [
@@ -130,12 +115,7 @@ class _LoginFormState extends State<LoginForm> {
                                     : null,
                                 decoration: InputDecoration(
                                   hintText: 'Username',
-                                  hintStyle: TextStyle(
-                                    color: Color.fromRGBO(35, 31, 32, 0.5),
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16.0,
-                                    height: 1.0,
-                                  ),
+                                  hintStyle: hintTextStyle,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20.0)),
@@ -171,12 +151,7 @@ class _LoginFormState extends State<LoginForm> {
                                     : null,
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                    color: Color.fromRGBO(35, 31, 32, 0.5),
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16.0,
-                                    height: 1.0,
-                                  ),
+                                  hintStyle: hintTextStyle,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20.0)),
@@ -261,7 +236,6 @@ class _LoginFormState extends State<LoginForm> {
                                       ..showSnackBar(urlNotFoundSnackBar);
                                   }
                                 });
-                                print(requestModel!.toJson());
                               }
                             },
                             child: Icon(

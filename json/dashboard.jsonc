@@ -1,0 +1,261 @@
+//Request URL - http://baseURL/spashta/api/query
+
+//Request Payload - Query Request. Same as Table.
+{
+    "instruction": "PERFORM_QUERY",
+    "sessionId": "sessionID",
+    "json": "{\"query\":\"KPI Summary\",\"actionId\":\"kpisummary\",\"user\":\"username\",\"instance\":\"instance\",\"replica\":\"replica\"}"
+}
+
+//Response Body - 
+{
+    "title": "",
+    "responses": [
+        {
+            "rows": [
+                {
+                    "cells": [
+                        "Demand Exceptions Count",
+                        "450"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Demand Exceptions",
+                        "19471"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Inventory Exceptions Count",
+                        "262"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Inventory Exceptions",
+                        "48687"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Capacity Exceptions Count",
+                        "0"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Capacity Exceptions",
+                        "0"
+                    ]
+                }
+            ],
+            "type": "TABLE",
+            "schema": {
+                "title": "Exception",
+                "header": [
+                    {
+                        "displayName": "Exception KPI"
+                    },
+                    {
+                        "displayName": "Value"
+                    }
+                ]
+            }
+        },
+        {
+            "rows": [
+                {
+                    "cells": [
+                        "Total Demand",
+                        "397654"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Total Forecast",
+                        "378554"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Orders Count",
+                        "354"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Total Orders",
+                        "19100"
+                    ]
+                }
+            ],
+            "type": "TABLE",
+            "schema": {
+                "title": "Demand",
+                "header": [
+                    {
+                        "displayName": "Demand KPI"
+                    },
+                    {
+                        "displayName": "Value"
+                    }
+                ]
+            }
+        },
+        {
+            "rows": [
+                {
+                    "cells": [
+                        "Fillrate",
+                        "95.1035"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Backlog",
+                        "0"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Satisfied Count",
+                        "7581"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Demand Satisfied",
+                        "378183"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Late Short Count",
+                        "450"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Demand Short and Late",
+                        "19471"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Short Count",
+                        "450"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Demand Shortness",
+                        "19471"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Late Count",
+                        "0"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Demand Lateness",
+                        "0"
+                    ]
+                }
+            ],
+            "type": "TABLE",
+            "schema": {
+                "title": "Demand Plan",
+                "header": [
+                    {
+                        "displayName": "Demand Plan KPI"
+                    },
+                    {
+                        "displayName": "Value"
+                    }
+                ]
+            }
+        },
+        {
+            "rows": [
+                {
+                    "cells": [
+                        "Starting On Hand",
+                        "119181"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Ending On Hand",
+                        "73923"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Target Safety Stock",
+                        "0"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Target Days of Cover",
+                        "13.882"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Target Stock",
+                        "44.382"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Days of Cover",
+                        "47.1944"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Firm Orders",
+                        "80882"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Planned Orders",
+                        "261641"
+                    ]
+                },
+                {
+                    "cells": [
+                        "Cost",
+                        "342523"
+                    ]
+                },
+                {
+                    "cells": [
+                        "PO to Release",
+                        "261641"
+                    ]
+                }
+            ],
+            "type": "TABLE",
+            "schema": {
+                "title": "Inventory",
+                "header": [
+                    {
+                        "displayName": "Inventory KPI"
+                    },
+                    {
+                        "displayName": "Value"
+                    }
+                ]
+            }
+        }
+    ],
+    "type": "MULTI",
+    "sourceActionId": "kpisummary"
+}

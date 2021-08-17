@@ -44,9 +44,10 @@ class MenuChild {
 
 class MenuChildChild {
   String? name;
+  String? actionId;
 
-  MenuChildChild({this.name});
+  MenuChildChild({this.name, this.actionId});
 
   factory MenuChildChild.fromJson(Map<String, dynamic> json) =>
-      MenuChildChild(name: json["name"]);
+      MenuChildChild(name: json["name"], actionId: json["actionId"]);
 }

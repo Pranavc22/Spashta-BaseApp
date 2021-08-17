@@ -1,0 +1,17 @@
+//Request URL: http://baseURL/spashta/api/login
+
+//Request Payload:
+{
+	"instruction" : "LOGIN",
+	"sessionid" : 0,
+	"json" : "{\"user\":\"username\",\"password\":\"password\",\"module\":\"module\"}"
+}
+
+//Response Body: Important - sessionId
+{
+    "uiVersionStatus":1,
+    "sessionId": "sessionID",
+    "serverVersion":"1.1.86",
+    "customerVersion":"1.1.86.1",
+    "uiVersion":"1.1.1.1"
+}

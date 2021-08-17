@@ -1,0 +1,252 @@
+//Request URL: http://baseURL/spashta/api/query
+
+//Request Payload:
+{
+    "instruction":"PERFORM_QUERY",
+    "sessionId":"sessionID",
+    "json":"{\"query\":\"Resources\",\"actionId\":\"resource\",\"user\":\"username\",\"instance\":\"instance\",\"replica\":\"replica\"}"
+}
+
+//Response Body - Important - rows (cells[String], id[Int]), type(==TABLE?)[String], schema (title[String], header(displayName[String], type[String]), styles[]
+
+{
+  "totalSize": 2,
+  "spreadsheet": false,
+  "rows": [
+    {
+      "fixed": false,
+      "yetToInsert": false,
+      "editable": 0,
+      "deletable": 0,
+      "cells": [
+        "FACT1",
+        ""
+      ],
+      "id": 0
+    },
+    {
+      "fixed": false,
+      "yetToInsert": false,
+      "editable": 0,
+      "deletable": 0,
+      "cells": [
+        "FACT3",
+        ""
+      ],
+      "id": 1
+    }
+  ],
+  "type": "TABLE",
+  "sourceActionId": "resource",
+  "queryTime": 0.01900005340576172,
+  "headerComponents": [
+    {
+      "name": "Compare",
+      "menuType": "CUSTOM",
+      "actionId": "comparereplicas",
+      "isTabbed": false,
+      "okurl": "query",
+      "persist": true,
+      "columns": -1,
+      "toggle": "",
+      "firstDuringToggle": false,
+      "uicomponents": [
+        {
+          "label": "Anchor Instance",
+          "input": "single",
+          "dropdownurl": "instance/list",
+          "paginated": false,
+          "arguments": [],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Anchor Replica",
+          "input": "single",
+          "dropdownurl": "instance/replicas",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "SELECTEDINSTANCE",
+              "value": "$0"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Instance 1",
+          "input": "single",
+          "dropdownurl": "instance/list",
+          "paginated": false,
+          "arguments": [],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Replica 1",
+          "input": "single",
+          "dropdownurl": "instance/replicas",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "SELECTEDINSTANCE",
+              "value": "$2"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Instance 2",
+          "input": "single",
+          "dropdownurl": "instance/list",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Replica 2",
+          "input": "single",
+          "dropdownurl": "instance/replicas",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            },
+            {
+              "key": "SELECTEDINSTANCE",
+              "value": "$4"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Instance 3",
+          "input": "single",
+          "dropdownurl": "instance/list",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Replica 3",
+          "input": "single",
+          "dropdownurl": "instance/replicas",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            },
+            {
+              "key": "SELECTEDINSTANCE",
+              "value": "$6"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Instance 4",
+          "input": "single",
+          "dropdownurl": "instance/list",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Replica 4",
+          "input": "single",
+          "dropdownurl": "instance/replicas",
+          "paginated": false,
+          "arguments": [
+            {
+              "key": "NEEDEMPTYENTRY",
+              "value": "true"
+            },
+            {
+              "key": "SELECTEDINSTANCE",
+              "value": "$8"
+            }
+          ],
+          "dropdownvalues": null
+        },
+        {
+          "label": "Display",
+          "input": "single",
+          "dropdownurl": "query",
+          "paginated": false,
+          "value": "Group Only Common Records",
+          "arguments": [],
+          "dropdownvalues": [
+            "All Records",
+            "Group Only Common Records",
+            "Group Any Non-Diff Records",
+            "Only Diff Records"
+          ]
+        }
+      ],
+      "arguments": [
+        {
+          "key": "ARGUMENTS",
+          "value": "[$0,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10]"
+        }
+      ],
+      "params": null,
+      "children": null,
+      "type": "BUTTON",
+      "sourceActionId": "",
+      "queryTime": 0
+    }
+  ],
+  "leftComponents": null,
+  "rightComponents": null,
+  "bottomComponents": null,
+  "schema": {
+    "title": "Resources",
+    "header": [
+      {
+        "name": "A1",
+        "displayName": "Resource",
+        "type": "STRING",
+        "defaultValue": "",
+        "editable": 0,
+        "prefWidth": -1,
+        "freetext": false,
+        "visible": true,
+        "completions": null
+      },
+      {
+        "name": "A2",
+        "displayName": "Max Build Ahead",
+        "type": "INTEGER",
+        "defaultValue": "",
+        "editable": 1,
+        "prefWidth": -1,
+        "freetext": false,
+        "visible": true,
+        "completions": null
+      }
+    ],
+    "type": "SCHEMA",
+    "queryTime": 0
+  },
+  "editable": -100,
+  "insertable": false,
+  "deletable": -1,
+  "selectable": false,
+  "styles": [],
+  "renderers": []
+}

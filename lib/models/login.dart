@@ -10,14 +10,8 @@ class LoginRequestModel {
 
   LoginRequestModel({this.user, this.password});
 
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = {
-      "instruction": "LOGIN",
-      "sessionId": 0,
-      "json": json
-    };
-    return map;
-  }
+  Map<String, dynamic> toJson() =>
+      {"instruction": "LOGIN", "sessionId": 0, "json": json};
 }
 
 class LoginResponseModel {

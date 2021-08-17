@@ -10,4 +10,6 @@ String? module;
 String division = '';
 String user = '';
 int? sessionID;
+String? instance;
+String? replica;
 bool isLoggedIn = false;

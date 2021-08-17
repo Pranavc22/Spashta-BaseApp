@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spashta_base_app/constants.dart';
 import 'package:spashta_base_app/widgets/loginForm.dart';
+import 'package:spashta_base_app/styling/textStyles.dart';
 
 class LogInPage extends StatelessWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -15,14 +15,7 @@ class LogInPage extends StatelessWidget {
                   BorderRadius.vertical(bottom: Radius.circular(20.0))),
           toolbarHeight: 100.0,
           leading: Image.asset('assets/images/logo.png'),
-          title: Text(
-            'Welcome to Spashta! ',
-            style: TextStyle(
-                color: light,
-                fontSize: 24.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w300),
-          ),
+          title: Text('Welcome to Spashta! ', style: welcomeAppBarTextStyle),
           centerTitle: true,
         ),
         body: LoginForm(),

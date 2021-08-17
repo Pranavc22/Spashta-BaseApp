@@ -13,11 +13,10 @@ The project has given me the opportunity to learn a lot of new concepts. Here ar
 - Customising different UI components. 
 - Using Flutter's default splash screen and customising  it.
 - Working with REST APIs. (HTTP POST Request) 
-- Authenticating users and storing data using SharedPreferences in the device's shared storage.
-- Storing data from different form components and adding default prompts. 
+- Authenticating users and storing complex data using SharedPreferences in the device's shared storage.
 - Working with snack bars to enhance user experience. 
 - Parsing complex JSON structures.
-- Using Navigation drawer as a user menu.
+- Using Navigation drawer as a user menu and user settings.
 - Releasing the app on the Google Play Store and testing it under different statuses.  
 
 
@@ -29,7 +28,4 @@ Some of the resources that helped me during the project are:
 
 Dart packages for the project: 
 - [shared_preferences package](https://pub.dev/packages/shared_preferences)
-
-## TO-DO & Future Ideas for the app
-This is a personal list of TODOs that I am maintaining for my own convenience, you can ignore these: 
-No TO-DOs left. 
+ 

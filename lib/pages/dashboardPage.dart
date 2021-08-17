@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:spashta_base_app/constants.dart';
+import 'package:spashta_base_app/models/dashboard.dart';
+import 'package:spashta_base_app/styling/textStyles.dart';
 import 'package:spashta_base_app/models/menu.dart';
+import 'package:spashta_base_app/models/query.dart';
+import 'package:spashta_base_app/models/table.dart';
+import 'package:spashta_base_app/models/instances.dart';
+import 'package:spashta_base_app/models/replicas.dart';
 import 'package:spashta_base_app/pages/connectionPage.dart';
 import 'package:spashta_base_app/pages/switchConnections.dart';
-import 'package:spashta_base_app/services/api_menu_service.dart';
+import 'package:spashta_base_app/services/menuService.dart';
+import 'package:spashta_base_app/services/instancesService.dart';
+import 'package:spashta_base_app/services/replicasService.dart';
+import 'package:spashta_base_app/services/queryService.dart';
 import 'package:spashta_base_app/widgets/dashboard.dart';
+import 'package:spashta_base_app/widgets/tableDashboard.dart';
+import 'package:spashta_base_app/widgets/notSupported.dart';
 import 'package:spashta_base_app/widgets/snackBars.dart';
+import 'package:spashta_base_app/widgets/progressHUD.dart';
+import 'package:spashta_base_app/widgets/multiDashboard.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -18,26 +30,72 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  bool isAPICall = false;
   List<MenuChild>? menuItems;
   MenuRequestModel? menuRequestModel;
+  InstancesRequestModel? instancesRequestModel;
+  ReplicasRequestModel? replicasRequestModel;
+  QueryRequestModel? queryRequestModel;
+  Widget? bodyWidget;
 
   List<Widget> buildSubMenu(MenuChild menuChild) {
     List<Widget> items = [];
     for (MenuChildChild subMenuItems in menuChild.children!) {
       items.add(
         new ListTile(
-          title: Text(
-            subMenuItems.name!,
-            style: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 14.0,
-                fontFamily: 'Poppins',
-                color: light),
-          ),
+          onTap: () {
+            setState(() {
+              isAPICall = true;
+            });
+            runQuery(subMenuItems.name!, subMenuItems.actionId!);
+            Navigator.of(context).pop();
+          },
+          title: Text(subMenuItems.name!, style: dataTextStyle),
         ),
       );
     }
     return items;
+  }
+
+  void runQuery(String query, String actionId) {
+    queryRequestModel = new QueryRequestModel(
+        sessionid: sessionID,
+        json: "{\"query\":\"" +
+            query +
+            "\",\"actionId\":\"" +
+            actionId +
+            "\",\"user\":\"" +
+            user +
+            "\",\"instance\":\"" +
+            instance! +
+            "\",\"replica\":\"" +
+            replica! +
+            "\"}");
+    QueryService queryService = QueryService();
+    queryService.getQuery(queryRequestModel!).then((response) {
+      setState(() {
+        isAPICall = false;
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          if (response.type == "TABLE") {
+            TableResponseModel tableResponse = response;
+            bodyWidget = TableDashboard(response: tableResponse);
+          } else if (response.type == "MULTI") {
+            DashboardResponseModel dashboardResponse = response;
+            bodyWidget = MultiDashboard(response: dashboardResponse);
+          } else if (response.type == "NOT_SUPPORTED") {
+            QueryResponseModel queryResponse = response;
+            bodyWidget = NotSupported(message: queryResponse.message);
+          }
+        });
+      } else {
+        QueryResponseModel queryResponse = response;
+        setState(() {
+          bodyWidget = NotSupported(message: queryResponse.message);
+        });
+      }
+    });
   }
 
   Future<void> getConfig() async {
@@ -50,8 +108,42 @@ class _DashboardPageState extends State<DashboardPage> {
       module = config!["Module"];
       division = config!["Division"];
     });
-
     sessionID = prefs.getInt('SessionID')!;
+    instancesRequestModel = new InstancesRequestModel(
+        sessionId: sessionID,
+        json: "{\"query\":\"List Instance\",\"user\":\"" +
+            user +
+            "\",\"actionId\":\"instances\",\"module\":\"" +
+            module! +
+            "\",\"division\":\"" +
+            division +
+            "\",\"instance\":\"\",\"replica\":\"\"}");
+    InstancesService instancesService = InstancesService();
+    instancesService.getInstances(instancesRequestModel!).then((response) {
+      if (response.statusCode == 200) {
+        setState(() {
+          instance = response.values!.last;
+        });
+        replicasRequestModel = new ReplicasRequestModel(
+            sessionId: sessionID,
+            json:
+                "{\"query\":\"List Replica\",\"actionId\":\"replica\",\"instance\":\"" +
+                    instance! +
+                    "\",\"replica\":\"\",\"user\":\"" +
+                    user +
+                    "\"}");
+        ReplicasService replicasService = ReplicasService();
+        replicasService
+            .getReplicas(replicasRequestModel!)
+            .then((replicaResponse) {
+          if (replicaResponse.statusCode == 200) {
+            setState(() {
+              replica = replicaResponse.values!.last;
+            });
+          }
+        });
+      }
+    });
     menuRequestModel = new MenuRequestModel(
         sessionid: sessionID,
         json: "{\"query\":\"MAINMENU\",\"actionId\":\"mainmenu\",\"user\":\"" +
@@ -63,7 +155,6 @@ class _DashboardPageState extends State<DashboardPage> {
             "\"}");
     MenuService menuService = MenuService();
     menuService.getMenu(menuRequestModel!).then((response) {
-      print(menuRequestModel!.toJson());
       if (response.statusCode == 200) {
         setState(() {
           menuItems = response.children!;
@@ -71,6 +162,10 @@ class _DashboardPageState extends State<DashboardPage> {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(welcomeSnackBar);
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(sessionExpiredSnackBar);
       }
     });
   }
@@ -88,11 +183,22 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     getConfig();
+    setState(() {
+      bodyWidget = Dashboard();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+        child: dashboardUI(context),
+        inAsyncCall: isAPICall,
+        opacity: 0.5,
+        color: light);
+  }
+
+  Widget dashboardUI(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -117,14 +223,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 width: 60.0,
                 height: 60.0,
               ),
-              Text(
-                'Spashta Solutions',
-                style: TextStyle(
-                    color: light,
-                    fontSize: 18.0,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w300),
-              )
+              Text('Spashta Solutions', style: appBarTextStyle),
             ],
           ),
           actions: [
@@ -167,14 +266,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           topRight: Radius.circular(15.0),
                           bottomRight: Radius.circular(15.0)),
                       child: new ExpansionTile(
-                        title: Text(
-                          menuItems![index].name!,
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16.0,
-                              color: light,
-                              fontWeight: FontWeight.normal),
-                        ),
+                        title: Text(menuItems![index].name!,
+                            style: dataTitleTextStyle),
                         trailing:
                             Icon(Icons.arrow_drop_down_rounded, color: light),
                         children: buildSubMenu(menuItems![index]),
@@ -216,14 +309,8 @@ class _DashboardPageState extends State<DashboardPage> {
                             Icons.switch_account,
                             color: dark,
                           ),
-                          title: Text(
-                            'Switch Workspace',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16.0,
-                                color: dark,
-                                fontWeight: FontWeight.normal),
-                          ),
+                          title: Text('Switch Workspace',
+                              style: userSettingsTextStyle),
                         ),
                       ),
                       Card(
@@ -249,14 +336,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             Icons.logout,
                             color: dark,
                           ),
-                          title: Text(
-                            'Logout',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16.0,
-                                color: dark,
-                                fontWeight: FontWeight.normal),
-                          ),
+                          title: Text('Logout', style: userSettingsTextStyle),
                         ),
                       )
                     ],
@@ -266,7 +346,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
           ),
         ),
-        body: Dashboard(),
+        body: bodyWidget,
       ),
     );
   }

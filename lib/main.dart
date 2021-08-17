@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spashta_base_app/pages/connectionPage.dart';
 import 'package:spashta_base_app/pages/dashboardPage.dart';
@@ -34,8 +33,6 @@ class _BaseAppState extends State<BaseApp> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -51,3 +48,13 @@ class _BaseAppState extends State<BaseApp> {
     );
   }
 }
+
+/*TODO: Make official documentation. Topics that may be covered:
+ - Learning Git and Github. Link to repository.
+ - Learning Flutter.
+ - Architecture of the project.
+ - Explanation of each folder and file.
+ - Testing/Publishing the app on Play Store.
+ */
+
+//TODO: Provide support for Custom Dialog Box.
